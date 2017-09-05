@@ -1,0 +1,23 @@
+.question-result {
+  padding: 10px;
+  border-bottom: 1px solid lightgrey;
+}
+
+.question-result__question {
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.question-result__answer {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.question-result__answer--correct {
+  background: limegreen;
+}
+
+.question-result__answer--incorrect {
+  background: red;
+}

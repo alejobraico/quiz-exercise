@@ -1,0 +1,10 @@
+question = 'Which is the best Node.js task runner?'
+
+answers = [
+  'Gulp. Streams!',
+  'NPM scripts. Cross-platform? Close enough!',
+  "RYOR. It's coming along...",
+  'Grunt. Old school.'
+]
+
+correct = 3

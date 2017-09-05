@@ -1,0 +1,11 @@
+{
+  "extends": ["tslint:recommended"],
+  "rules": {
+    "curly": false,
+    "interface-name": false,
+    "max-classes-per-file": false,
+    "quotemark": [true, "single"],
+    "semicolon": [true, "never"],
+    "trailing-comma": false
+  }
+}

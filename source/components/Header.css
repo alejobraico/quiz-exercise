@@ -1,0 +1,40 @@
+.header {
+  position: fixed;
+  width: 100%;
+  height: 45px;
+  text-align: center;
+  background: white;
+  border-bottom: 1px solid lightgrey;
+
+  & .logo {
+    position: relative;
+    top: 15px;
+    height: 17px;
+  }
+
+}
+
+@media (--medium-viewport) {
+
+  .header {
+    text-align: left;
+
+    & .logo {
+      left: 12px;
+    }
+  }
+
+}
+
+@media (--large-viewport) {
+
+  .header {
+    height: 60px;
+    text-align: center;
+
+    & .logo {
+      height: 25px;
+    }
+  }
+
+}

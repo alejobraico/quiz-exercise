@@ -1,0 +1,3 @@
+[build]
+  command = "node run build"
+  publish = "build"

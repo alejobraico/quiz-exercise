@@ -1,0 +1,36 @@
+{
+  "name": "quiz-exercise",
+  "description": "Simple JAMStack static site generator for quiz application",
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {
+    "preact": "^8.2.5"
+  },
+  "devDependencies": {
+    "babel-core": "^7.0.0-alpha.19",
+    "babel-preset-env": "^2.0.0-alpha.19",
+    "browser-sync": "^2.18.13",
+    "chalk": "^2.1.0",
+    "chokidar-cli": "^1.2.0",
+    "concurrently": "^3.5.0",
+    "cross-spawn": "^5.1.0",
+    "cssnano": "^3.10.0",
+    "htmlclean": "^3.0.3",
+    "jsdom": "^11.2.0",
+    "minimist": "^1.2.0",
+    "optimize-js": "^1.0.3",
+    "postcss": "^6.0.10",
+    "postcss-cssnext": "^3.0.2",
+    "postcss-import": "^10.0.0",
+    "rollup": "^0.49.2",
+    "rollup-plugin-babel": "^3.0.2",
+    "rollup-plugin-commonjs": "^8.2.0",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "ryor": "^0.2.8",
+    "shx": "^0.2.2",
+    "toml": "^2.3.3",
+    "tslint": "^5.7.0",
+    "typescript": "^2.5.2",
+    "uglify-es": "^3.0.28"
+  }
+}

@@ -1,0 +1,10 @@
+question = 'What category level is the hurricane that Kareem is currently floating into on a cruise ship?'
+
+answers = [
+  'One, not too big a deal.',
+  'Two, might get a bit bumpy.',
+  "Three, buckle up it's going to be a rough ride.",
+  'Five. Skipped right past four, just like the hurricane did pretty quickly yesterday.'
+]
+
+correct = 4

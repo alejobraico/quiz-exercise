@@ -1,0 +1,10 @@
+question = 'What does "rgba" stand for?'
+
+answers = [
+  'Reticulated Globular Bifurcated Amalgam',
+  'Resonant Geothermic Bass-heavy Audio',
+  'Red, Green, Blue, Alpha',
+  'Roaring Gorillas Break Anything'
+]
+
+correct = 3
