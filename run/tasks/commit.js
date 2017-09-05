@@ -25,8 +25,8 @@ function run(args)
     'log -w Verifying that code does not contain any TSLint errors and build completes successfully',
     'tslint -s',
     'build -s',
-    'shx rm -rf build' // ,
-    // `git commit ${_.join(' ')}`
+    'shx rm -rf build',
+    `git commit ${_.join(' ')}`
   ]
 
   if (release)
