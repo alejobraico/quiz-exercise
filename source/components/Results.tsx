@@ -9,14 +9,12 @@ interface ResultsProps {
 
 export function Results({correctCount, questionCount, onResetButtonClick}:ResultsProps):JSX.Element
 {
-  const percentage:number = Math.round((correctCount / questionCount) * 100)
   const grade:string =
-      percentage >= 90 ? 'A'
-    : percentage >= 80 ? 'B'
-    : percentage >= 70 ? 'C'
-    : percentage >= 65 ? 'D'
-    : 'F'
-
+      correctCount === 0 ? 'F'
+    : correctCount === questionCount ? 'A'
+    : correctCount === questionCount - 1 ? 'B'
+    : correctCount === questionCount - 2 ? 'C'
+    : 'D'
 
   return (
     <div class='results'>

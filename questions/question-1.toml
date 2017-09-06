@@ -1,10 +1,10 @@
 question = 'What does "rgba" stand for?'
 
 answers = [
-  'Reticulated Globular Bifurcated Amalgam',
-  'Resonant Geothermic Bass-heavy Audio',
+  "Relative Gradient Bisecting Angles",
   'Red, Green, Blue, Alpha',
-  'Roaring Gorillas Break Anything'
+  'Rounded Graphing Binormal Articulation',
+  'Reticulated Globular Bifurcated Amalgam'
 ]
 
-correct = 3
+correct = 2
