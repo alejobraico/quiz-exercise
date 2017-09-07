@@ -1,33 +1,24 @@
-import {Component, h} from 'preact'
-import {Answer} from './Answer'
+import {h} from 'preact'
 
-export class Question extends Component<QuestionProps, {}>
+export function Question({onSelect, questionData:{answerIndex, choices, question}, selectedChoiceIndex}:QuestionProps):JSX.Element
 {
-  public render({onSelect, questionData:{answerIndex, options, question}, selectedOptionIndex}:QuestionProps):JSX.Element
-  {
-    const answerText:string = options[answerIndex]
-
-    if (selectedOptionIndex !== undefined && selectedOptionIndex > -1)
-      return (
-        <div class='question answered'>
-          <div class='question__text'>{question}</div>
-          {selectedOptionIndex !== answerIndex && <div class='question__answer question__answer--incorrect'>{options[selectedOptionIndex]}</div>}
-          <div class='question__answer question__answer--correct'>{answerText}</div>
-        </div>
-      )
-
-    return (
-      <div class='question'>
-        <div class='question__text'>{question}</div>
-        {options.map((option:string, index:number):JSX.Element => <Answer {...{text:option, onClick:():void => this.handleSelect(index)}} />)}
-      </div>
-    )
-  }
-
-  private handleSelect = (selectedOptionIndex:number):void =>
-  {
-    this.props.onSelect(selectedOptionIndex)
-
-    this.setState({selectedOptionIndex})
-  }
+  return (
+    <div class={`question${selectedChoiceIndex !== undefined ? ' answered' : ''}`}>
+      <div class='question__text'>{question}</div>
+      {choices.map((option:string, index:number):JSX.Element =>
+        <div {...{
+          class:`question__option question__option--${index}${
+            selectedChoiceIndex !== undefined
+              ? index === answerIndex
+                ? ' question__option--correct'
+                : index == selectedChoiceIndex
+                  ? ' question__option--incorrect'
+                  : ''
+              : ''
+          }`,
+          onClick:():void => onSelect(index)
+        }}>{option}</div>
+      )}
+    </div>
+  )
 }

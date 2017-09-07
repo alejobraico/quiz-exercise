@@ -19,7 +19,7 @@
     "jsdom": "^11.2.0",
     "minimist": "^1.2.0",
     "optimize-js": "^1.0.3",
-    "postcss": "^6.0.10",
+    "postcss": "^6.0.11",
     "postcss-cssnext": "^3.0.2",
     "postcss-import": "^10.0.0",
     "rollup": "^0.49.2",

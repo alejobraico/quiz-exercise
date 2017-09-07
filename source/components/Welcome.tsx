@@ -20,7 +20,6 @@ export class Welcome extends Component<WelcomeProps, {}>
     const button:Element = document.querySelector('.welcome__button')!
 
     button.classList.add('clicked')
-
     button.addEventListener('animationend', this.props.onReady)
   }
 }

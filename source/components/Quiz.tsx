@@ -1,11 +1,10 @@
 import {Component, h} from 'preact'
 import {Header} from './Header'
-import {Progress} from './Progress'
 import {Question} from './Question'
 import {Results} from './Results'
 import {Welcome} from './Welcome'
 
-enum QuizStatus {
+export enum QuizStatus {
   Inactive,
   Active,
   Complete
@@ -16,7 +15,7 @@ export class Quiz extends Component<{}, QuizState>
   public state:QuizState = {
     currentQuestionIndex: 0,
     questionsData: [],
-    selectedOptionIndeces: [],
+    selectedChoiceIndeces: [],
     status: QuizStatus.Inactive
   }
 
@@ -25,10 +24,8 @@ export class Quiz extends Component<{}, QuizState>
     return status !== QuizStatus.Inactive
   }
 
-  public render({}, {currentQuestionIndex, questionsData, selectedOptionIndeces, status}:QuizState):JSX.Element
+  public render({}, {currentQuestionIndex, questionsData, selectedChoiceIndeces, status}:QuizState):JSX.Element
   {
-    console.log('render')
-
     if (status === QuizStatus.Inactive)
       return (
         <div class='quiz'>
@@ -36,38 +33,22 @@ export class Quiz extends Component<{}, QuizState>
         </div>
       )
 
-    const questionCount:number = questionsData.length
-    const questionComponents:JSX.Element[] = []
-    let index:number = 0
-
-    while (index <= currentQuestionIndex)
-    {
-      const questionData:QuestionData|undefined = questionsData[index]
-      let questionComponent:JSX.Element|undefined
-
-      if (questionData)
-        questionComponent = <Question {...{key: `question-${index}`, questionData, onSelect:this.handleAnswerToCurrentQuestion, selectedOptionIndex:selectedOptionIndeces[index]}} />
-
-      if (questionComponent)
-        questionComponents.push(questionComponent)
-
-      index++
-    }
+    const questionData:QuestionData = questionsData[currentQuestionIndex]
 
     return (
       <div class='quiz active'>
         <Header />
         <main class='quiz__contents'>
-          <div class='quiz__questions'>
-            {questionComponents}
-          </div>
+          {status === QuizStatus.Active &&
+            <Question {...{
+              key:`question-${currentQuestionIndex}`,
+              questionData,
+              onSelect:this.handleAnswerToCurrentQuestion,
+              selectedChoiceIndex:selectedChoiceIndeces[currentQuestionIndex]
+            }} />
+          }
         </main>
-        {currentQuestionIndex < questionCount && <Progress {...{currentQuestionIndex, questionCount}} />}
-        {currentQuestionIndex >= questionCount  && <Results {...{
-          questionCount,
-          correctCount:selectedOptionIndeces.reduce((value:number, selectedOptionIndex:number, index:number):number => selectedOptionIndex === questionsData[index].answerIndex ? ++value : value, 0),
-          onResetButtonClick:this.reset
-        }} />}
+        <Results {...{questionsData, selectedChoiceIndeces, status, onReset:this.reset}} />
       </div>
     )
   }
@@ -82,17 +63,6 @@ export class Quiz extends Component<{}, QuizState>
     this.confirmQuestionDataLoaded().then(():void => this.setState({status:QuizStatus.Active}))
   }
 
-  private handleAnswerToCurrentQuestion = (selectedOptionIndex:number):void =>
-  {
-    const {currentQuestionIndex, questionsData}:QuizState = this.state
-    const selectedOptionIndeces:number[] = this.state.selectedOptionIndeces.concat()
-    const nextQuestionIndex:number = currentQuestionIndex + 1
-
-    selectedOptionIndeces[currentQuestionIndex] = selectedOptionIndex
-
-    this.setState({selectedOptionIndeces, currentQuestionIndex:nextQuestionIndex, status:nextQuestionIndex < questionsData.length ? QuizStatus.Active : QuizStatus.Complete})
-  }
-
   private confirmQuestionDataLoaded():Promise<void>
   {
     if (this.state.questionsData.length > 0)
@@ -104,15 +74,36 @@ export class Quiz extends Component<{}, QuizState>
       .then((questionsDataRaw:QuestionDataRaw[]):void =>
         this.setState({questionsData:questionsDataRaw.map((questionDataRaw:QuestionDataRaw):QuestionData =>
         {
-          const {answer, options, question}:QuestionDataRaw = questionDataRaw
+          const {answer, choices, question}:QuestionDataRaw = questionDataRaw
 
-          return {options, question, answerIndex:answer - 1}
+          return {choices, question, answerIndex:answer - 1}
         })})
       )
   }
 
+  private handleAnswerToCurrentQuestion = (selectedChoiceIndex:number):void =>
+  {
+    const {currentQuestionIndex, questionsData}:QuizState = this.state
+    const selectedChoiceIndeces:number[] = this.state.selectedChoiceIndeces.concat()
+    const nextQuestionIndex:number = currentQuestionIndex + 1
+    const questionElement:Element = document.querySelector('.question')!
+
+    selectedChoiceIndeces[currentQuestionIndex] = selectedChoiceIndex
+
+    if (selectedChoiceIndex !== questionsData[currentQuestionIndex].answerIndex && 'vibrate' in navigator)
+      navigator.vibrate(300)
+
+    this.setState({selectedChoiceIndeces})
+
+    questionElement.addEventListener('animationend', (event:AnimationEvent):void =>
+    {
+      if (event.target === questionElement)
+        this.setState({currentQuestionIndex:nextQuestionIndex, status:nextQuestionIndex < questionsData.length ? QuizStatus.Active : QuizStatus.Complete})
+    })
+  }
+
   private reset = ():void =>
   {
-    this.setState({currentQuestionIndex:0, selectedOptionIndeces:[]})
+    this.setState({currentQuestionIndex:0, selectedChoiceIndeces:[], status:QuizStatus.Active})
   }
 }

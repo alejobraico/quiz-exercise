@@ -9,10 +9,7 @@
 .quiz__contents {
   padding-top: 45px;
   padding-bottom: 40px;
-}
-
-.quiz__questions {
-  border-bottom: 1px solid lightgray;
+  z-index: 0;
 }
 
 @media (--medium-viewport) {

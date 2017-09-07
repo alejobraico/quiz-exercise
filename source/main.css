@@ -2,9 +2,7 @@
 @import 'shared/animations.css';
 @import 'shared/media-queries.css';
 @import 'components/Quiz.css';
-@import 'components/Answer.css';
 @import 'components/Header.css';
-@import 'components/Progress.css';
 @import 'components/Question.css';
 @import 'components/Results.css';
 @import 'components/Welcome.css';

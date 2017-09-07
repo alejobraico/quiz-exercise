@@ -1,22 +1,34 @@
 import {h} from 'preact'
 import {ResetIcon} from './ResetIcon'
+import {StarIcon} from './StarIcon'
+import {QuizStatus} from './Quiz'
 
-export function Results({correctCount, questionCount, onResetButtonClick}:ResultsProps):JSX.Element
+export function Results({onReset, questionsData, selectedChoiceIndeces, status}:ResultsProps):JSX.Element
 {
-  const grade:string =
-      correctCount === 0 ? 'F'
-    : correctCount === questionCount ? 'A'
-    : correctCount === questionCount - 1 ? 'B'
-    : correctCount === questionCount - 2 ? 'C'
-    : 'D'
+  const stars:JSX.Element[] = []
+
+  for (let i = 0; i < questionsData.length; i++)
+    stars.push(<StarIcon {...{
+      classes: `results__star${selectedChoiceIndeces[i] !== undefined ? ` results__star--${selectedChoiceIndeces[i] !== questionsData[i].answerIndex ? 'in' : ''}correct` : ''}`,
+      pathClasses: `results__star-path`
+    }} />)
 
   return (
-    <div class='results'>
-      <div class='results__contents'>
-        <div class={`results__grade results__grade--${grade}`}>{grade}</div>
-        <div class='results__details'>You got {correctCount} out of {questionCount} questions correct.</div>
-        <div {...{class:'results__reset-button', onClick:onResetButtonClick}}><ResetIcon /> Try again?</div>
+    <div class={`results${status === QuizStatus.Complete ? ' complete' : ''}`}>
+      <div class='results__stars'>
+        {stars}
       </div>
+      {status === QuizStatus.Complete && (
+        <div class='results__details'>
+          You got {
+            selectedChoiceIndeces.reduce((c:number, selectedChoiceIndex:number, index:number):number => selectedChoiceIndex === questionsData[index].answerIndex ? ++c : c, 0)
+          } out of {
+            questionsData.length
+          } questions correct.</div>
+      )}
+      {status === QuizStatus.Complete && (
+        <div {...{class:'results__reset-button', onClick:onReset}}><ResetIcon {...{classes:'results__reset-icon'}} /> Try again?</div>
+      )}
     </div>
   )
 }

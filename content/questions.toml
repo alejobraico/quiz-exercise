@@ -2,7 +2,7 @@
 
   question = 'What does "rgba" stand for?'
 
-  options = [
+  choices = [
     "Relative Gradient Bisecting Angles",
     'Red, Green, Blue, Alpha',
     'Rounded Graphing Binormal Articulation',
@@ -15,7 +15,7 @@
 
   question = 'What category level is the hurricane that Kareem is currently floating into on a cruise ship?'
 
-  options = [
+  choices = [
     'One, not too big a deal.',
     'Two, might get a bit bumpy.',
     "Three, buckle up it's going to be a rough ride.",
@@ -28,7 +28,7 @@
 
   question = 'Which is the best Node.js task runner?'
 
-  options = [
+  choices = [
     'Gulp. Streams!',
     'NPM scripts. Cross-platform? Close enough!',
     "RYOR. It's coming along...",

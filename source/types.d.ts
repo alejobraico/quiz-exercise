@@ -3,40 +3,41 @@ interface AnswerProps {
   text: string
 }
 
-interface ProgressProps {
-  currentQuestionIndex: number
-  questionCount: number
+interface IconProps {
+  classes?: string
+  pathClasses?: string
 }
 
 interface QuestionDataRaw {
   answer: number
-  options: string[]
+  choices: string[]
   question: string
 }
 
 interface QuestionData {
   answerIndex: number
-  options: string[]
+  choices: string[]
   question: string
 }
 
 interface QuestionProps {
   onSelect: (answer: number) => void
   questionData: QuestionData
-  selectedOptionIndex?: number
+  selectedChoiceIndex: number
 }
 
 interface QuizState {
   currentQuestionIndex: number
   questionsData: QuestionData[]
-  selectedOptionIndeces: number[]
+  selectedChoiceIndeces: number[]
   status: number
 }
 
 interface ResultsProps {
-  correctCount: number
-  questionCount: number
-  onResetButtonClick: () => void
+  onReset: () => void
+  questionsData: QuestionData[]
+  selectedChoiceIndeces: number[]
+  status: number
 }
 
 interface WelcomeProps {

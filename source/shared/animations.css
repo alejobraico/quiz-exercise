@@ -1,3 +1,7 @@
+/**
+ * Some animations below originally from https://daneden.github.io/animate.css/ (although slightly modified)
+ */
+
 @keyframes bounceBlurIn {
   from, 20%, 40%, 60%, 80%, to {
     animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
@@ -68,6 +72,18 @@
   }
 }
 
+@keyframes fadeBlurIn {
+  from {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translate3d(0, 10px, 0);
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
 @keyframes fadeBlurInOut {
   0% {
     opacity: 0;
@@ -85,5 +101,79 @@
     opacity: 0;
     filter: blur(10px);
     transform: translate3d(0, -10px, 0);
+  }
+}
+
+@keyframes pulse {
+  from {
+    transform: scale3d(1, 1, 1);
+  }
+
+  50% {
+    transform: scale3d(1.05, 1.05, 1.05);
+  }
+
+  to {
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+@keyframes shake {
+  from, to {
+    transform: translate3d(0, 0, 0);
+  }
+
+  10%, 30%, 50%, 70%, 90% {
+    transform: translate3d(-5px, 0, 0);
+  }
+
+  20%, 40%, 60%, 80% {
+    transform: translate3d(5px, 0, 0);
+  }
+}
+
+@keyframes slideBlurIn {
+  from {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translate3d(10px, 0, 0);
+  }
+
+  to {
+    opacity: 1
+  }
+}
+
+@keyframes slideBlurOut {
+  from {
+    opacity: 1
+  }
+
+  to {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translate3d(-10px, 0, 0);
+  }
+}
+
+@keyframes tada {
+  from {
+    transform: scale3d(1, 1, 1);
+  }
+
+  10%, 20% {
+    transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg);
+  }
+
+  30%, 50%, 70%, 90% {
+    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);
+  }
+
+  40%, 60%, 80% {
+    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);
+  }
+
+  to {
+    transform: scale3d(1, 1, 1);
   }
 }

@@ -29,6 +29,7 @@
   left: calc(50% - 25px);
   cursor: pointer;
   width: 50px;
+  color: white;
   background: limegreen;
   border-radius: 50%;
   outline: none;
