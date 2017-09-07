@@ -1,7 +1,7 @@
 {
   "name": "quiz-exercise",
   "description": "Simple JAMStack static site generator for quiz application",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "private": true,
   "dependencies": {
     "preact": "^8.2.5"
