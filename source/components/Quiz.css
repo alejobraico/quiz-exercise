@@ -1,50 +1,9 @@
-@import './Answer.css';
-@import './Header.css';
-@import './Progress.css';
-@import './Question.css';
-@import './QuestionResult.css';
-@import './Results.css';
+.quiz {
 
-/**
-* From https://css-tricks.com/international-box-sizing-awareness-day/
-*/
-*, *:before, *:after {
-  box-sizing: border-box;
-}
+  &.active {
+    animation: fadeIn 0.5s ease-out;
+  }
 
-/**
- * Commented rules from https://github.com/necolas/normalize.css/blob/master/normalize.css
- *
- * 1. Correct the line height in all browsers.
- * 2. Prevent adjustments of font size after orientation changes in
- *    IE on Windows Phone and in iOS.
- */
-html {
-  line-height: 1.15; /* 1 */
-  -ms-text-size-adjust: 100%; /* 2 */
-  -webkit-text-size-adjust: 100%; /* 2 */
-  font-family: 'Helvetica Neue', Helvetica, Verdana, Arial, sans-serif;
-}
-
-/**
- * From https://github.com/necolas/normalize.css/blob/master/normalize.css
- *
- * Remove the margin in all browsers (opinionated).
- */
-body {
-  margin: 0;
-}
-
-/**
- * Commented rules from https://github.com/necolas/normalize.css/blob/master/normalize.css
- *
- * 1. Remove the gray background on active links in IE 10.
- * 2. Remove gaps in links underline in iOS 8+ and Safari 8+.
- */
-
-a {
-  background-color: transparent; /* 1 */
-  -webkit-text-decoration-skip: objects; /* 2 */
 }
 
 .quiz__contents {

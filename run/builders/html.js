@@ -50,7 +50,6 @@ function run(args)
   {
     const cssPath = resolve(buildDirectoryPath, 'main.css')
     const jsPath = resolve(buildDirectoryPath, 'main.js')
-    const jsonPath = resolve(buildDirectoryPath, 'question-1.json')
 
     if (!existsSync(cssPath))
       throw new Error(`No CSS file found at ${cssPath}. CSS must be built before HTML for production builds.`)
@@ -58,16 +57,14 @@ function run(args)
     if (!existsSync(jsPath))
       throw new Error(`No JavaScipt file found at ${jsPath}. JavaScript must be built before HTML for production builds.`)
 
-    if (!existsSync(jsonPath))
-      throw new Error(`No JSON file found at ${jsonPath}. JSON must be built before HTML for production builds.`)
-
     const {JSDOM, VirtualConsole} = require('jsdom')
     const htmlclean = require('htmlclean')
     const optimizeJS = require('optimize-js')
     const {minify} = require('uglify-es')
     const virtualConsole = new VirtualConsole()
-    const js = readFileSync(jsPath).toString()
-    const json = readFileSync(jsonPath).toString()
+    const css = readFileSync(cssPath).toString()
+    const js = optimizeJS(minify(readFileSync(jsPath).toString(), {compress: {negate_iife: false}}).code)
+    const document = new JSDOM(htmlclean(html.replace('</head>', `<style>${css}</style></head>`).replace('</body>', `<script>${js}</script></body>`)), {virtualConsole, runScripts: 'dangerously'}).window.document
     const renderCheckTimeLimit = 500
     const renderCheckInterval = 20
 
@@ -99,21 +96,12 @@ function run(args)
       })
     }
 
-    html = htmlclean(
-      html
-        .replace('</head>', `<style>${readFileSync(cssPath).toString()}</style></head>`)
-        .replace('</body>', `<script>${optimizeJS(minify(js.replace('questionsData = []', `questionsData = [${json}]`), {compress: {negate_iife: false}}).code)}</script></body>`)
-    )
-
-    const document = new JSDOM(html, {virtualConsole, runScripts: 'dangerously'}).window.document
-
     verifyPageRender(document)
       .then(() =>
       {
         const script = document.body.removeChild(document.body.querySelector('script'))
 
-        html = document.documentElement.innerHTML
-          .replace('</body>', `${script.outerHTML}</body>`)
+        html = document.documentElement.innerHTML.replace('</body>', `${script.outerHTML}</body>`)
 
         writeFileSync(resolve(buildDirectoryPath, 'index.html'), html)
       })

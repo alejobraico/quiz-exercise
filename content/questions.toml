@@ -1,0 +1,38 @@
+[[data]]
+
+  question = 'What does "rgba" stand for?'
+
+  options = [
+    "Relative Gradient Bisecting Angles",
+    'Red, Green, Blue, Alpha',
+    'Rounded Graphing Binormal Articulation',
+    'Reticulated Globular Bifurcated Amalgam'
+  ]
+
+  answer = 2
+
+[[data]]
+
+  question = 'What category level is the hurricane that Kareem is currently floating into on a cruise ship?'
+
+  options = [
+    'One, not too big a deal.',
+    'Two, might get a bit bumpy.',
+    "Three, buckle up it's going to be a rough ride.",
+    'Five. Skipped right past four, just like the hurricane did pretty quickly yesterday.'
+  ]
+
+  answer = 4
+
+[[data]]
+
+  question = 'Which is the best Node.js task runner?'
+
+  options = [
+    'Gulp. Streams!',
+    'NPM scripts. Cross-platform? Close enough!',
+    "RYOR. It's coming along...",
+    'Grunt. Old school.'
+  ]
+
+  answer = 3

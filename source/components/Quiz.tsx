@@ -2,61 +2,70 @@ import {Component, h} from 'preact'
 import {Header} from './Header'
 import {Progress} from './Progress'
 import {Question} from './Question'
-import {QuestionResult} from './QuestionResult'
 import {Results} from './Results'
-import {QuestionData} from '../main'
+import {Welcome} from './Welcome'
 
-interface QuizProps {
-  questionCount: number
-  questionsData: QuestionData[]
+enum QuizStatus {
+  Inactive,
+  Active,
+  Complete
 }
 
-interface QuizState {
-  complete: boolean
-  currentQuestion: number
-  questionsData: QuestionData[]
-  answers: number[]
-}
-
-export class Quiz extends Component<QuizProps, QuizState>
+export class Quiz extends Component<{}, QuizState>
 {
   public state:QuizState = {
-    complete: false,
-    currentQuestion: 1,
+    currentQuestionIndex: 0,
     questionsData: [],
-    answers: []
+    selectedOptionIndeces: [],
+    status: QuizStatus.Inactive
   }
 
-  public componentWillMount():void
+  public shouldComponentUpdate({}, {status}:QuizState):boolean
   {
-    if (this.props.questionsData.length > 0)
-      this.setState({questionsData:this.props.questionsData})
+    return status !== QuizStatus.Inactive
   }
 
-  public render({questionCount}:QuizProps, {answers, complete, currentQuestion, questionsData}:QuizState):JSX.Element
+  public render({}, {currentQuestionIndex, questionsData, selectedOptionIndeces, status}:QuizState):JSX.Element
   {
-    const questionData:QuestionData|undefined = !complete && questionsData.length >= currentQuestion ? questionsData[currentQuestion - 1] : undefined
+    console.log('render')
+
+    if (status === QuizStatus.Inactive)
+      return (
+        <div class='quiz'>
+          <Welcome {...{onReady:this.beginQuiz}} />
+        </div>
+      )
+
+    const questionCount:number = questionsData.length
+    const questionComponents:JSX.Element[] = []
+    let index:number = 0
+
+    while (index <= currentQuestionIndex)
+    {
+      const questionData:QuestionData|undefined = questionsData[index]
+      let questionComponent:JSX.Element|undefined
+
+      if (questionData)
+        questionComponent = <Question {...{key: `question-${index}`, questionData, onSelect:this.handleAnswerToCurrentQuestion, selectedOptionIndex:selectedOptionIndeces[index]}} />
+
+      if (questionComponent)
+        questionComponents.push(questionComponent)
+
+      index++
+    }
 
     return (
-      <div class='quiz'>
+      <div class='quiz active'>
         <Header />
         <main class='quiz__contents'>
           <div class='quiz__questions'>
-            {answers.length > 0 && answers.map((answer:number, index:number):JSX.Element =>
-            {
-              const data:QuestionData = questionsData[index]
-              const {correct, question}:QuestionData = data
-              const incorrectAnswer:string|undefined = answer !== correct ? data.answers[answer - 1] : undefined
-
-              return <QuestionResult {...{key:`result-${index}`, incorrectAnswer, question, answer:data.answers[data.correct - 1]}} />
-            })}
-            {questionData && <Question {...{key: `question-${currentQuestion}`, questionData, onAnswerSelect:this.handleAnswerToCurrentQuestion}} />}
+            {questionComponents}
           </div>
         </main>
-        {!complete && <Progress {...{currentQuestion, questionCount}} />}
-        {complete && <Results {...{
+        {currentQuestionIndex < questionCount && <Progress {...{currentQuestionIndex, questionCount}} />}
+        {currentQuestionIndex >= questionCount  && <Results {...{
           questionCount,
-          correctCount:answers.reduce((value:number, answer:number, index:number):number => answer === questionsData[index].correct ? ++value : value, 0),
+          correctCount:selectedOptionIndeces.reduce((value:number, selectedOptionIndex:number, index:number):number => selectedOptionIndex === questionsData[index].answerIndex ? ++value : value, 0),
           onResetButtonClick:this.reset
         }} />}
       </div>
@@ -65,47 +74,45 @@ export class Quiz extends Component<QuizProps, QuizState>
 
   public componentDidMount():void
   {
-    if (this.state.currentQuestion > this.state.questionsData.length)
-      this.loadCurrentQuestionData()
+    this.confirmQuestionDataLoaded()
   }
 
-  public componentDidUpdate():void
+  private beginQuiz = ():void =>
   {
-    if (this.state.currentQuestion > this.state.questionsData.length)
-      this.loadCurrentQuestionData()
+    this.confirmQuestionDataLoaded().then(():void => this.setState({status:QuizStatus.Active}))
   }
 
-  private loadCurrentQuestionData():void
+  private handleAnswerToCurrentQuestion = (selectedOptionIndex:number):void =>
   {
-    fetch(`/question-${this.state.currentQuestion}.json`)
-      .then(response => response.json())
-      .then((questionData:QuestionData):void =>
-      {
-        const questionsData = this.state.questionsData.concat()
+    const {currentQuestionIndex, questionsData}:QuizState = this.state
+    const selectedOptionIndeces:number[] = this.state.selectedOptionIndeces.concat()
+    const nextQuestionIndex:number = currentQuestionIndex + 1
 
-        questionsData[this.state.currentQuestion - 1] = questionData
+    selectedOptionIndeces[currentQuestionIndex] = selectedOptionIndex
 
-        this.setState({questionsData})
-      })
+    this.setState({selectedOptionIndeces, currentQuestionIndex:nextQuestionIndex, status:nextQuestionIndex < questionsData.length ? QuizStatus.Active : QuizStatus.Complete})
   }
 
-  private handleAnswerToCurrentQuestion = (answer:number):void =>
+  private confirmQuestionDataLoaded():Promise<void>
   {
-    const {questionCount}:QuizProps = this.props
-    const {currentQuestion}:QuizState = this.state
-    const answers:number[] = this.state.answers.concat()
+    if (this.state.questionsData.length > 0)
+      return Promise.resolve()
 
-    answers[currentQuestion - 1] = answer
+    return fetch(`/questions.json`)
+      .then((response:Response):{} => response.json())
+      .then(({data}:{data:QuestionDataRaw[]}):QuestionDataRaw[] => data)
+      .then((questionsDataRaw:QuestionDataRaw[]):void =>
+        this.setState({questionsData:questionsDataRaw.map((questionDataRaw:QuestionDataRaw):QuestionData =>
+        {
+          const {answer, options, question}:QuestionDataRaw = questionDataRaw
 
-    if (currentQuestion < questionCount)
-      this.setState({answers, currentQuestion:currentQuestion + 1})
-
-    else
-      this.setState({answers, complete:true})
+          return {options, question, answerIndex:answer - 1}
+        })})
+      )
   }
 
   private reset = ():void =>
   {
-    this.setState({answers:[], complete:false, currentQuestion:1})
+    this.setState({currentQuestionIndex:0, selectedOptionIndeces:[]})
   }
 }

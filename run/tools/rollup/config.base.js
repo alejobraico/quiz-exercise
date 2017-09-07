@@ -13,12 +13,7 @@ export default {
   format: 'iife',
   plugins: [
     resolvePreactDevTools,
-    resolve({
-      jsnext: true
-    }),
-    commonjs({
-      include: 'node_modules/preact-router/match.js',
-      sourceMap: false
-    })
+    resolve(),
+    commonjs()
   ]
 }

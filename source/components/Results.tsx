@@ -1,12 +1,6 @@
 import {h} from 'preact'
 import {ResetIcon} from './ResetIcon'
 
-interface ResultsProps {
-  correctCount: number
-  questionCount: number
-  onResetButtonClick: () => void
-}
-
 export function Results({correctCount, questionCount, onResetButtonClick}:ResultsProps):JSX.Element
 {
   const grade:string =

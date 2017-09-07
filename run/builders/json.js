@@ -1,6 +1,6 @@
 'use strict'
 
-const description = 'Builds JSON question data files from TOML source files'
+const description = 'Coverts TOML content files into JSON'
 
 function usage()
 {
@@ -26,7 +26,7 @@ function run(args)
   })
 
   if (watch)
-    return require('../tools/chokidar')('questions/*.toml', 'node run json -d + tsc')
+    return require('../tools/chokidar')('content/*.toml', 'node run json -d + tsc')
 
   if (!silent)
     require('../utils/log').wait('Building JSON files')
@@ -36,17 +36,17 @@ function run(args)
   const {parseTOML} = require('../utils/toml')
   const rootDirectoryPath = resolve(__dirname, '../..')
   const buildDirectoryPath = resolve(rootDirectoryPath, 'build')
-  const questionsDirectoryPath = resolve(rootDirectoryPath, 'questions')
+  const contentDirectoryPath = resolve(rootDirectoryPath, 'content')
 
   if (!existsSync(buildDirectoryPath))
     mkdirSync(buildDirectoryPath)
 
-  readdirSync(questionsDirectoryPath)
+  readdirSync(contentDirectoryPath)
     .map(fileName => parse(fileName).name)
     .forEach(name =>
       writeFileSync(
         resolve(buildDirectoryPath, `${name}.json`),
-        JSON.stringify(parseTOML(resolve(questionsDirectoryPath, `${name}.toml`)), undefined, development ? 2 : 0)
+        JSON.stringify(parseTOML(resolve(contentDirectoryPath, `${name}.toml`)), undefined, development ? 2 : 0)
       )
     )
 }
