@@ -14,8 +14,7 @@ function usage()
 
 function run(args)
 {
-  const minimist = require('minimist')
-  const {dependencies, development, silent, watch} = minimist(args, {
+  const {dependencies, development, silent, watch} = require('minimist')(args, {
     alias: {d: 'development', s: 'silent', w: 'watch'},
     boolean: ['d', 'development', 'dependencies', 's', 'silent', 'w', 'watch'],
     unknown: value =>

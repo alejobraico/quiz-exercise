@@ -6,11 +6,9 @@ export class Welcome extends Component<WelcomeProps, {}>
   {
     return (
       <div class='welcome'>
-        <div class='welcome__contents'>
-          <div class='welcome__heading'>Welcome.</div>
-          <div class='welcome__question'>Ready to take the quiz?</div>
-          <div {...{onClick:this.handleButtonClick, class:'welcome__button'}}>Go!</div>
-        </div>
+        <div class='welcome__heading'>Welcome.</div>
+        <div class='welcome__question'>Ready to take the quiz?</div>
+        <div {...{onClick:this.handleButtonClick, class:'welcome__button'}}>Go!</div>
       </div>
     )
   }
@@ -19,7 +17,7 @@ export class Welcome extends Component<WelcomeProps, {}>
   {
     const button:Element = document.querySelector('.welcome__button')!
 
-    button.classList.add('clicked')
+    button.classList.add('welcome__button--clicked')
     button.addEventListener('animationend', this.props.onReady)
   }
 }

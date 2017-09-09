@@ -13,8 +13,7 @@ function usage()
 
 function run(args)
 {
-  const minimist = require('minimist')
-  const {development, silent, watch} = minimist(args, {
+  const {development, silent, watch} = require('minimist')(args, {
     alias: {d: 'development', s: 'silent', w: 'watch'},
     boolean: ['d', 'development', 's:', 'silent', 'w', 'watch'],
     unknown: value =>
@@ -35,21 +34,34 @@ function run(args)
     log.wait('Bundling CSS')
   }
 
-  const {readFileSync, writeFileSync} = require('fs')
+  const {existsSync, mkdirSync, readFileSync, writeFileSync} = require('fs')
   const {resolve} = require('path')
   const postcss = require('postcss')
-  const postcssCSSNext = require('postcss-cssnext')
-  const postcssImport = require('postcss-import')
   const rootDirectoryPath = resolve(__dirname, '../..')
+  const buildDirectoryPath = resolve(rootDirectoryPath, 'build')
   const sourceDirectoryPath = resolve(rootDirectoryPath, 'source')
   const css = readFileSync(resolve(sourceDirectoryPath, 'main.css')).toString()
   const plugins = [
-    postcssImport({root:sourceDirectoryPath}),
-    postcssCSSNext({warnForDuplicates:false})
+    require('postcss-import')({root:sourceDirectoryPath}),
+    require("stylelint")({
+      extends:'stylelint-config-standard',
+      rules:{
+        'at-rule-empty-line-before': null,
+        'comment-empty-line-before': null,
+        'number-leading-zero': null,
+        'rule-empty-line-before': null,
+        'selector-list-comma-newline-after': null
+      }
+    }),
+    require('postcss-cssnext')({browsers:require('./browserslist.json'), warnForDuplicates:false}),
+    require('postcss-reporter')
   ]
 
   if (!development)
     plugins.push(require('cssnano')())
+
+  if (!existsSync(buildDirectoryPath))
+    mkdirSync(buildDirectoryPath)
 
   return postcss(plugins)
     .process(css)

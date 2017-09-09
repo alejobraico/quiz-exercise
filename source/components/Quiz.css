@@ -1,29 +1,27 @@
 .quiz {
+  height: 100%;
+}
 
-  &.active {
-    animation: fadeIn 0.5s ease-out;
-  }
-
+.quiz--active {
+  animation: fadeIn .5s ease-out;
 }
 
 .quiz__contents {
-  padding-top: 45px;
   padding-bottom: 40px;
+  padding-top: 45px;
   z-index: 0;
 }
 
 @media (--medium-viewport) {
-
   .quiz__contents {
-    padding-bottom: 0;
+    padding-bottom: unset;
   }
-
 }
 
 @media (--large-viewport) {
-
   .quiz__contents {
-    padding-top: 60px;
+    margin: 0 auto;
+    padding-top: 10px;
+    width: 1024px;
   }
-
 }

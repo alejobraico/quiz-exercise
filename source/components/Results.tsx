@@ -14,7 +14,7 @@ export function Results({onReset, questionsData, selectedChoiceIndeces, status}:
     }} />)
 
   return (
-    <div class={`results${status === QuizStatus.Complete ? ' complete' : ''}`}>
+    <div class={`results${status === QuizStatus.Complete ? ' results--complete' : ''}`}>
       <div class='results__stars'>
         {stars}
       </div>
@@ -26,9 +26,9 @@ export function Results({onReset, questionsData, selectedChoiceIndeces, status}:
             questionsData.length
           } questions correct.</div>
       )}
-      {status === QuizStatus.Complete && (
+      {status === QuizStatus.Complete &&
         <div {...{class:'results__reset-button', onClick:onReset}}><ResetIcon {...{classes:'results__reset-icon'}} /> Try again?</div>
-      )}
+      }
     </div>
   )
 }

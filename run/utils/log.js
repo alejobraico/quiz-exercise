@@ -24,8 +24,7 @@ function success(message)
 
 function run(args)
 {
-  const minimist = require('minimist')
-  const parsedArgs = minimist(args, {
+  const parsedArgs = require('minimist')(args, {
     alias: {s: 'success', w: 'wait'},
     boolean: ['s', 'success', 'w', 'wait']
   })

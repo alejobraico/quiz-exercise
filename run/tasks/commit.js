@@ -12,8 +12,7 @@ function usage()
 
 function run(args)
 {
-  const minimist = require('minimist')
-  const {_, push, release} = minimist(args, {
+  const {_, push, release} = require('minimist')(args, {
     alias: {p: 'push', r: 'release'},
     boolean: ['p', 'push', 'r', 'release']
   })
@@ -22,7 +21,7 @@ function run(args)
     throw new Error('A commmit message is required')
 
   const sequence = [
-    'log -w Verifying that code does not contain any TSLint errors and build completes successfully',
+    'log -w Verifying that TypeScript does not contain any errors with TSLint and that build completes successfully',
     'tslint -s',
     'build -s',
     'shx rm -rf build',

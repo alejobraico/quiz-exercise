@@ -4,12 +4,12 @@
 
 @keyframes bounceBlurIn {
   from, 20%, 40%, 60%, 80%, to {
-    animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+    animation-timing-function: cubic-bezier(.215, .61, .355, 1);
   }
 
   0% {
-    opacity: 0;
     filter: blur(10px);
+    opacity: 0;
     transform: scale3d(.3, .3, .3);
   }
 
@@ -22,8 +22,8 @@
   }
 
   60% {
-    opacity: 1;
     filter: blur(0);
+    opacity: 1;
     transform: scale3d(1.03, 1.03, 1.03);
   }
 
@@ -56,8 +56,8 @@
   }
 
   to {
-    opacity: 0;
     filter: blur(10px);
+    opacity: 0;
     transform: translate3d(0, -200vh, 0);
   }
 }
@@ -74,8 +74,8 @@
 
 @keyframes fadeBlurIn {
   from {
-    opacity: 0;
     filter: blur(10px);
+    opacity: 0;
     transform: translate3d(0, 10px, 0);
   }
 
@@ -86,20 +86,20 @@
 
 @keyframes fadeBlurInOut {
   0% {
-    opacity: 0;
     filter: blur(10px);
+    opacity: 0;
     transform: translate3d(0, 10px, 0);
   }
 
   33%, 66% {
-    opacity: 1;
     filter: blur(0);
+    opacity: 1;
     transform: translate3d(0, 0, 0);
   }
 
   100% {
-    opacity: 0;
     filter: blur(10px);
+    opacity: 0;
     transform: translate3d(0, -10px, 0);
   }
 }
@@ -119,7 +119,8 @@
 }
 
 @keyframes shake {
-  from, to {
+  from,
+  to {
     transform: translate3d(0, 0, 0);
   }
 
@@ -134,24 +135,24 @@
 
 @keyframes slideBlurIn {
   from {
-    opacity: 0;
     filter: blur(10px);
+    opacity: 0;
     transform: translate3d(10px, 0, 0);
   }
 
   to {
-    opacity: 1
+    opacity: 1;
   }
 }
 
 @keyframes slideBlurOut {
   from {
-    opacity: 1
+    opacity: 1;
   }
 
   to {
-    opacity: 0;
     filter: blur(10px);
+    opacity: 0;
     transform: translate3d(-10px, 0, 0);
   }
 }
@@ -161,7 +162,8 @@
     transform: scale3d(1, 1, 1);
   }
 
-  10%, 20% {
+  10%,
+  20% {
     transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg);
   }
 

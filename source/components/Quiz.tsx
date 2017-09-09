@@ -36,8 +36,9 @@ export class Quiz extends Component<{}, QuizState>
     const questionData:QuestionData = questionsData[currentQuestionIndex]
 
     return (
-      <div class='quiz active'>
+      <div class='quiz quiz--active'>
         <Header />
+        <Results {...{questionsData, selectedChoiceIndeces, status, onReset:this.reset}} />
         <main class='quiz__contents'>
           {status === QuizStatus.Active &&
             <Question {...{
@@ -48,7 +49,6 @@ export class Quiz extends Component<{}, QuizState>
             }} />
           }
         </main>
-        <Results {...{questionsData, selectedChoiceIndeces, status, onReset:this.reset}} />
       </div>
     )
   }

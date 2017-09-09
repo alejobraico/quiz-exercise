@@ -11,7 +11,7 @@ export default Object.assign({}, config, {
         ['env', {
           modules: false,
           targets: {
-            browsers: ['>= 5%']
+            browsers: require('../browserslist.json')
           }
         }]
       ]

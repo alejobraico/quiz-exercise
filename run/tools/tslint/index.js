@@ -11,15 +11,19 @@ function usage()
 
 function run(args)
 {
-  const log = require('../../utils/log')
-  const minimist = require('minimist')
-  const {silent} = minimist(args, {
+  const {silent} = require('minimist')(args, {
     alias: {s: 'silent',},
-    boolean: ['s', 'silent']
+    boolean: ['s', 'silent'],
+    unknown: value =>
+    {
+      const {bold} = require('chalk')
+
+      throw new Error(`Invalid value ${bold(value)} passed to the ${bold('postcss')} tool.`)
+    }
   })
 
   if (!silent)
-    log.wait('Checking TypeScript for errors with TSLint')
+    require('../../utils/log').wait('Checking TypeScript for errors with TSLint')
 
   return new Promise((resolve, reject) =>
   {
@@ -35,9 +39,6 @@ function run(args)
 
       if (errors)
         return reject(errors)
-
-      if (!silent)
-        log.success('No errors found')
 
       resolve()
     })
