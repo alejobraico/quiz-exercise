@@ -1,6 +1,30 @@
+@keyframes welcome__text--in-out {
+  0% {
+    filter: blur(10px);
+    opacity: 0;
+    transform: translate3d(0, 10px, 0);
+  }
+
+  33%, 66% {
+    filter: blur(0);
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  100% {
+    filter: blur(10px);
+    opacity: 0;
+    transform: translate3d(0, -10px, 0);
+  }
+}
+
 @keyframes welcome__button--in {
   from, 20%, 40%, 60%, 80%, to {
     animation-timing-function: cubic-bezier(.215, .61, .355, 1);
+  }
+
+  from {
+    box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0);
   }
 
   20%, to {
@@ -40,7 +64,6 @@
 @keyframes welcome__button--out {
   0% {
     opacity: 1;
-    box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, .5);
   }
 
   20% {
@@ -57,6 +80,7 @@
   }
 
   to {
+    box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0);
     filter: blur(10px);
     opacity: 0;
     transform: translate3d(0, -200vh, 0);
@@ -80,7 +104,7 @@
 }
 
 .welcome__heading, .welcome__question {
-  animation: fadeBlurInOut 1.2s ease-out;
+  animation: welcome__text--in-out 1.2s ease-out;
   text-align: center;
 }
 
@@ -96,6 +120,7 @@
   animation: welcome__button--in .6s ease-out 1.9s forwards;
   background: limegreen;
   border-radius: 50%;
+  box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, .5);
   color: white;
   cursor: pointer;
   left: calc(50% - 25px);

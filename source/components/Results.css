@@ -19,6 +19,18 @@
   }
 }
 
+@keyframes results__button--in {
+  from {
+    filter: blur(10px);
+    opacity: 0;
+    transform: translate3d(0, 10px, 0);
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
 .results {
   background: white;
   border-top: 1px solid lightgrey;
@@ -70,13 +82,13 @@
 }
 
 .results__details {
-  animation: fadeBlurIn .3s ease-out .3s forwards;
+  animation: results__button--in .3s ease-out .3s forwards;
   margin-top: 30px;
   opacity: 0;
 }
 
 .results__reset-button {
-  animation: fadeBlurIn .3s ease-out .6s forwards;
+  animation: results__button--in .3s ease-out .6s forwards;
   cursor: pointer;
   margin-top: 20px;
   opacity: 0;

@@ -1,48 +1,6 @@
 /**
- * Some animations below originally from https://daneden.github.io/animate.css/ (although slightly modified)
+ * Animations below from https://daneden.github.io/animate.css/
  */
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes fadeBlurIn {
-  from {
-    filter: blur(10px);
-    opacity: 0;
-    transform: translate3d(0, 10px, 0);
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes fadeBlurInOut {
-  0% {
-    filter: blur(10px);
-    opacity: 0;
-    transform: translate3d(0, 10px, 0);
-  }
-
-  33%, 66% {
-    filter: blur(0);
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-  }
-
-  100% {
-    filter: blur(10px);
-    opacity: 0;
-    transform: translate3d(0, -10px, 0);
-  }
-}
 
 @keyframes pulse {
   from {
@@ -70,30 +28,6 @@
 
   20%, 40%, 60%, 80% {
     transform: translate3d(5px, 0, 0);
-  }
-}
-
-@keyframes slideBlurIn {
-  from {
-    filter: blur(10px);
-    opacity: 0;
-    transform: translate3d(10px, 0, 0);
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes slideBlurOut {
-  from {
-    opacity: 1;
-  }
-
-  to {
-    filter: blur(10px);
-    opacity: 0;
-    transform: translate3d(-10px, 0, 0);
   }
 }
 
