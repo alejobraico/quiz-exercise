@@ -31,7 +31,6 @@
     "shx": "^0.2.2",
     "stylelint": "^8.1.1",
     "stylelint-config-standard": "^17.0.0",
-    "toml": "^2.3.3",
     "tslint": "^5.7.0",
     "typescript": "^2.5.2",
     "uglify-es": "^3.0.28"

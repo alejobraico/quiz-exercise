@@ -4,10 +4,31 @@ import {Question} from './Question'
 import {Results} from './Results'
 import {Welcome} from './Welcome'
 
+const OPEN_TRIVIA_API_URL:string = 'https://opentdb.com/api.php?amount=3&type=multiple'
+
 export enum QuizStatus {
   Inactive,
   Active,
   Complete
+}
+
+const HtmlEntities:{[key:string]:string} = {
+  '&quot;': "'",
+  '&#039;': '"',
+  '&eacute;': 'é',
+  '&amp;': '&',
+  '&Uuml;': "Ü"
+}
+
+function decodeSpecialCharacters(value:string):string
+{
+  Object.keys(HtmlEntities).forEach((key:string):void =>
+  {
+    if (value.includes(key))
+      value = value.replace(new RegExp(key, 'g'), HtmlEntities[key])
+  })
+
+  return value
 }
 
 export class Quiz extends Component<{}, QuizState>
@@ -68,15 +89,19 @@ export class Quiz extends Component<{}, QuizState>
     if (this.state.questionsData.length > 0)
       return Promise.resolve()
 
-    return fetch(`/questions.json`)
+    return fetch(OPEN_TRIVIA_API_URL)
       .then((response:Response):{} => response.json())
-      .then(({data}:{data:QuestionDataRaw[]}):QuestionDataRaw[] => data)
-      .then((questionsDataRaw:QuestionDataRaw[]):void =>
-        this.setState({questionsData:questionsDataRaw.map((questionDataRaw:QuestionDataRaw):QuestionData =>
+      .then((data:{results:OpenTriviaQuestion[]}):void =>
+        this.setState({questionsData:data.results.map(({correct_answer, incorrect_answers, question}:OpenTriviaQuestion):QuestionData =>
         {
-          const {answer, choices, question}:QuestionDataRaw = questionDataRaw
+          const answerCount:number = incorrect_answers.length + 1
+          const answerIndex:number = Math.floor(Math.random() * answerCount)
+          const choices:string[] = []
 
-          return {choices, question, answerIndex:answer - 1}
+          for (let i:number = 0; i < answerCount; i++)
+            choices.push(i === answerIndex ? decodeSpecialCharacters(correct_answer) : decodeSpecialCharacters(incorrect_answers.pop()!))
+
+          return {answerIndex, choices, question: decodeSpecialCharacters(question)}
         })})
       )
   }

@@ -16,7 +16,7 @@
 .question__option {
   animation: slideBlurIn .3s ease-out forwards;
   background: lightgrey;
-  border-radius: 5px;
+  box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, .4);
   cursor: pointer;
   margin-top: 10px;
   opacity: 0;

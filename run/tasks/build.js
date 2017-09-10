@@ -20,8 +20,7 @@ function run(args)
     'shx rm -rf build',
     [
       `tsc${silent ? ' -s' : ''}`,
-      `postcss${development ? ' -d' : ''}${silent ? ' -s' : ''}`,
-      `json${development ? ' -d' : ''}${silent ? ' -s' : ''}`
+      `postcss${development ? ' -d' : ''}${silent ? ' -s' : ''}`
     ]
   ]
 

@@ -37,13 +37,12 @@ function run(args)
     mkdirSync(buildDirectoryPath)
 
   if (development)
-  {
-    html = html
-      .replace('</head>', `  <link rel="stylesheet" href="/main.css">\n  </head>`)
-      .replace('</body>', `\n    <script src="/dependencies.js"></script>\n    <script src="/main.js"></script>\n  </body>`)
-
-    writeFileSync(resolve(buildDirectoryPath, 'index.html'), html)
-  }
+    writeFileSync(
+      resolve(buildDirectoryPath, 'index.html'),
+      html
+        .replace('</head>', `  <link rel="stylesheet" href="/main.css">\n  </head>`)
+        .replace('</body>', `\n    <script src="/dependencies.js"></script>\n    <script src="/main.js"></script>\n  </body>`)
+    )
 
   else
   {
@@ -63,7 +62,15 @@ function run(args)
     const virtualConsole = new VirtualConsole()
     const css = readFileSync(cssPath).toString()
     const js = optimizeJS(minify(readFileSync(jsPath).toString(), {compress: {negate_iife: false}}).code)
-    const document = new JSDOM(htmlclean(html.replace('</head>', `<style>${css}</style></head>`).replace('</body>', `<script>${js}</script></body>`)), {virtualConsole, runScripts: 'dangerously'}).window.document
+
+    html = htmlclean(
+      html
+        .split('</head>').join(`<style>${css}</style></head>`)
+        .split('</body>').join(`<script>fetch = () => new Promise(resolve => '')</script><script>${js}</script></body>`)
+      )
+
+    // const document = new JSDOM(htmlclean(html.replace('</head>', `<style>${css}</style></head>`).replace('</body>', `<script>${js}</script></body>`)), {runScripts: 'dangerously'}).window.document
+    const document = new JSDOM(html, {runScripts: 'dangerously'}).window.document
     const renderCheckTimeLimit = 500
     const renderCheckInterval = 20
 
@@ -98,11 +105,14 @@ function run(args)
     verifyPageRender(document)
       .then(() =>
       {
-        const script = document.body.removeChild(document.body.querySelector('script'))
+        const scriptElements = document.body.querySelectorAll('script')
 
-        html = document.documentElement.innerHTML.replace('</body>', `${script.outerHTML}</body>`)
+        scriptElements.forEach(scriptElement => document.body.removeChild(scriptElement))
 
-        writeFileSync(resolve(buildDirectoryPath, 'index.html'), html)
+        writeFileSync(
+          resolve(buildDirectoryPath, 'index.html'),
+          document.documentElement.innerHTML.split('</body>').join(`${scriptElements[1].outerHTML}</body>`)
+        )
       })
       .catch(error =>
       {

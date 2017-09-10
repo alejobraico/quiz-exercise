@@ -8,6 +8,12 @@ interface IconProps {
   pathClasses?: string
 }
 
+interface OpenTriviaQuestion {
+  correct_answer: string
+  incorrect_answers: string[]
+  question: string
+}
+
 interface QuestionDataRaw {
   answer: number
   choices: string[]

@@ -6,13 +6,11 @@ function run()
 {
   const buildRunnables = [
     'node run html -ds',
-    'node run json -ds',
     `node run postcss -ds`,
     'node run tsc -s + rollup -s --dependencies + rollup -ds'
   ]
   const watchRunnables = [
     'node run browser-sync start',
-    'node run json -w',
     'node run postcss -w',
     'node run rollup -w',
     'node run tsc -w'

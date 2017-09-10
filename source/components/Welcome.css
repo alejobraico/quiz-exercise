@@ -1,3 +1,68 @@
+@keyframes welcome__button--in {
+  from, 20%, 40%, 60%, 80%, to {
+    animation-timing-function: cubic-bezier(.215, .61, .355, 1);
+  }
+
+  20%, to {
+    box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, .5);
+  }
+
+  0% {
+    filter: blur(10px);
+    opacity: 0;
+    transform: scale3d(.3, .3, .3);
+  }
+
+  20% {
+    transform: scale3d(1.1, 1.1, 1.1);
+  }
+
+  40% {
+    transform: scale3d(.9, .9, .9);
+  }
+
+  60% {
+    filter: blur(0);
+    opacity: 1;
+    transform: scale3d(1.03, 1.03, 1.03);
+  }
+
+  80% {
+    transform: scale3d(.97, .97, .97);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+@keyframes welcome__button--out {
+  0% {
+    opacity: 1;
+    box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, .5);
+  }
+
+  20% {
+    transform: translate3d(0, -10px, 0);
+  }
+
+  30% {
+    filter: blur(0);
+  }
+
+  40%, 45% {
+    opacity: 1;
+    transform: translate3d(0, 20px, 0);
+  }
+
+  to {
+    filter: blur(10px);
+    opacity: 0;
+    transform: translate3d(0, -200vh, 0);
+  }
+}
+
 .welcome {
   font-weight: bold;
   white-space: nowrap;
@@ -28,7 +93,7 @@
 }
 
 .welcome__button {
-  animation: bounceBlurIn .6s ease-out 1.9s forwards;
+  animation: welcome__button--in .6s ease-out 1.9s forwards;
   background: limegreen;
   border-radius: 50%;
   color: white;
@@ -40,5 +105,5 @@
 }
 
 .welcome__button--clicked {
-  animation: bounceBlurOutUp 1s ease-out;
+  animation: welcome__button--out 1s ease-out;
 }
