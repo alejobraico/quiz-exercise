@@ -1,7 +1,7 @@
 {
   "name": "quiz-exercise",
   "description": "Simple static site generator for quiz application",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "private": true,
   "dependencies": {
     "preact": "^8.2.5"
