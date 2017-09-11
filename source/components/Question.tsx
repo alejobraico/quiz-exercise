@@ -11,7 +11,7 @@ export function Question({onSelect, questionData:{answerIndex, choices, question
             selectedChoiceIndex !== undefined
               ? index === answerIndex
                 ? ' question__option--correct'
-                : index == selectedChoiceIndex
+                : index === selectedChoiceIndex
                   ? ' question__option--incorrect'
                   : ''
               : ''

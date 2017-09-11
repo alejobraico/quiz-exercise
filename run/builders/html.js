@@ -61,7 +61,7 @@ function run(args)
     const {minify} = require('uglify-es')
     const virtualConsole = new VirtualConsole()
     const css = readFileSync(cssPath).toString()
-    const js = optimizeJS(minify(readFileSync(jsPath).toString(), {compress: {negate_iife: false}}).code)
+    const js = optimizeJS(minify(readFileSync(jsPath).toString(), {compress:{negate_iife:false}, mangle:{safari10:true}}).code)
 
     html = htmlclean(
       html

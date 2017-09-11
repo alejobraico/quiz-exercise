@@ -27,7 +27,7 @@ function run(args)
 
   return new Promise((resolve, reject) =>
   {
-    const childProcess = require('cross-spawn')('tslint', ['-c', 'run/tools/tslint/config.json', '-p', 'run/tools/tsc/config.json', '--type-check', 'source/**/*.ts'])
+    const childProcess = require('cross-spawn')('tslint', ['-c', 'run/tools/tslint/config.json', '-p', 'run/tools/tsc/config.json', '--type-check', 'source/**/*.ts*'])
     let errors = ''
 
     childProcess.stderr.on('data', data => errors += data)

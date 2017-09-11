@@ -1,5 +1,5 @@
 interface AnswerProps {
-  onClick: () => void
+  onClick():void
   text: string
 }
 
@@ -27,7 +27,7 @@ interface QuestionData {
 }
 
 interface QuestionProps {
-  onSelect: (answer: number) => void
+  onSelect(answer: number):void
   questionData: QuestionData
   selectedChoiceIndex: number
 }
@@ -40,12 +40,16 @@ interface QuizState {
 }
 
 interface ResultsProps {
-  onReset: () => void
+  onReset():void
   questionsData: QuestionData[]
   selectedChoiceIndeces: number[]
   status: number
 }
 
+interface SafariTouchEvent extends TouchEvent {
+  scale: number
+}
+
 interface WelcomeProps {
-  onReady: () => void
+  onReady():void
 }

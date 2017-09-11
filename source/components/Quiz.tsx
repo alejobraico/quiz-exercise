@@ -1,35 +1,12 @@
 import {Component, h} from 'preact'
+import {QuizStatus} from '../shared/QuizStatus'
+import {decodeSpecialCharacters} from '../shared/utils'
 import {Header} from './Header'
 import {Question} from './Question'
 import {Results} from './Results'
 import {Welcome} from './Welcome'
 
 const OPEN_TRIVIA_API_URL:string = 'https://opentdb.com/api.php?amount=3&type=multiple'
-
-export enum QuizStatus {
-  Inactive,
-  Active,
-  Complete
-}
-
-const HtmlEntities:{[key:string]:string} = {
-  '&quot;': "'",
-  '&#039;': '"',
-  '&eacute;': 'é',
-  '&amp;': '&',
-  '&Uuml;': "Ü"
-}
-
-function decodeSpecialCharacters(value:string):string
-{
-  Object.keys(HtmlEntities).forEach((key:string):void =>
-  {
-    if (value.includes(key))
-      value = value.replace(new RegExp(key, 'g'), HtmlEntities[key])
-  })
-
-  return value
-}
 
 export class Quiz extends Component<{}, QuizState>
 {
@@ -40,12 +17,12 @@ export class Quiz extends Component<{}, QuizState>
     status: QuizStatus.Inactive
   }
 
-  public shouldComponentUpdate({}, {status}:QuizState):boolean
+  public shouldComponentUpdate(props:{}, {status}:QuizState):boolean
   {
     return status !== QuizStatus.Inactive
   }
 
-  public render({}, {currentQuestionIndex, questionsData, selectedChoiceIndeces, status}:QuizState):JSX.Element
+  public render(props:{}, {currentQuestionIndex, questionsData, selectedChoiceIndeces, status}:QuizState):JSX.Element
   {
     if (status === QuizStatus.Inactive)
       return (
@@ -64,8 +41,8 @@ export class Quiz extends Component<{}, QuizState>
           {status === QuizStatus.Active &&
             <Question {...{
               key:`question-${currentQuestionIndex}`,
-              questionData,
               onSelect:this.handleAnswerToCurrentQuestion,
+              questionData,
               selectedChoiceIndex:selectedChoiceIndeces[currentQuestionIndex]
             }} />
           }
