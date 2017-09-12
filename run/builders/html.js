@@ -41,7 +41,7 @@ function run(args)
       resolve(buildDirectoryPath, 'index.html'),
       html
         .replace('</head>', `  <link rel="stylesheet" href="/main.css">\n  </head>`)
-        .replace('</body>', `\n    <script src="/dependencies.js"></script>\n    <script src="/main.js"></script>\n  </body>`)
+        .replace('</body>', `\n    ${require('./scripts').paths.concat(['/main.js']).map(path => `<script src='/${path.split('/').pop()}'></script>`).join('\n    ')}\n  </body>`)
     )
 
   else
