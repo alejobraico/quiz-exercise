@@ -1,23 +1,12 @@
-import {Component, h} from 'preact'
+import {h} from 'preact'
 
-export class Welcome extends Component<WelcomeProps, {}>
+export function Welcome({onButtonClick}:WelcomeProps):JSX.Element
 {
-  public render({onReady}:WelcomeProps):JSX.Element
-  {
-    return (
-      <div class='welcome'>
-        <div class='welcome__heading'>Welcome.</div>
-        <div class='welcome__question'>Ready to take the quiz?</div>
-        <div {...{onClick:this.handleButtonClick, class:'welcome__button'}}>Go!</div>
-      </div>
-    )
-  }
-
-  private handleButtonClick = ():void =>
-  {
-    const button:Element = document.querySelector('.welcome__button')!
-
-    button.classList.add('welcome__button--clicked')
-    button.addEventListener('animationend', this.props.onReady)
-  }
+  return (
+    <div class='welcome'>
+      <div class='welcome__heading'>Welcome.</div>
+      <div class='welcome__question'>Ready to take the quiz?</div>
+      <div {...{class:'welcome__button', onClick:onButtonClick}}>Go!</div>
+    </div>
+  )
 }

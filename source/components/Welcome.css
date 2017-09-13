@@ -129,6 +129,8 @@
   -webkit-tap-highlight-color: transparent;
 }
 
-.welcome__button--clicked {
-  animation: welcome__button--out 1s ease-out;
+.welcome--ready {
+  & .welcome__button {
+    animation: welcome__button--out 1s ease-out;
+  }
 }

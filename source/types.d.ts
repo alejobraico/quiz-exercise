@@ -51,5 +51,5 @@ interface SafariTouchEvent extends TouchEvent {
 }
 
 interface WelcomeProps {
-  onReady():void
+  onButtonClick(): void
 }

@@ -27,7 +27,7 @@ export class Quiz extends Component<{}, QuizState>
     if (status === QuizStatus.Inactive)
       return (
         <div class='quiz'>
-          <Welcome {...{onReady:this.beginQuiz}} />
+          <Welcome {...{onButtonClick:this.handleWelcomeButtonClick}} />
         </div>
       )
 
@@ -56,7 +56,7 @@ export class Quiz extends Component<{}, QuizState>
     this.confirmQuestionDataLoaded()
   }
 
-  private beginQuiz = ():void =>
+  private beginQuiz():void
   {
     this.confirmQuestionDataLoaded().then(():void => this.setState({status:QuizStatus.Active}))
   }
@@ -81,6 +81,20 @@ export class Quiz extends Component<{}, QuizState>
           return {answerIndex, choices, question: decodeSpecialCharacters(question)}
         })})
       )
+  }
+
+  private handleWelcomeButtonClick = ():void =>
+  {
+    const quizElement:Element = document.querySelector('.welcome')!
+    const handleAnimationEnd:() => void = ():void =>
+    {
+      quizElement.removeEventListener('animationend', handleAnimationEnd)
+
+      this.beginQuiz()
+    }
+
+    quizElement.addEventListener('animationend', handleAnimationEnd)
+    quizElement.classList.add('welcome--ready')
   }
 
   private handleAnswerToCurrentQuestion = (selectedChoiceIndex:number):void =>
